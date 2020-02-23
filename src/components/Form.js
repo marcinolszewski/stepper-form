@@ -8,14 +8,18 @@ class Form extends Component {
     step: 1
   };
 
-  handleNext(e) {
+  handleNext = e => {
     e.preventDefault();
-    console.log('next');
-  }
-  handlePrev(e) {
+    if (this.state.step !== 3) {
+      this.setState({ step: this.state.step + 1 });
+    }
+  };
+  handlePrev = e => {
     e.preventDefault();
-    console.log('prev');
-  }
+    if (this.state.step !== 1) {
+      this.setState({ step: this.state.step - 1 });
+    }
+  };
   render() {
     const { step } = this.state;
     return (
@@ -40,14 +44,14 @@ class Form extends Component {
         </div>
         <div className="wrapper__btn">
           <Button
-            class="btn btn__prev"
+            btnClass="btn btn__prev"
             text="Previous"
-            onClick={e => this.handlePrev(e)}
+            changeInput={this.handlePrev}
           />
           <Button
-            class="btn btn__next"
+            btnClass="btn btn__next"
             text="Next"
-            onClick={this.handleNext.bind(this, null)}
+            changeInput={this.handleNext}
           />
         </div>
       </form>
