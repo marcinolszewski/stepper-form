@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Input from './Input';
-import Legend from './Legend';
+import LegendElement from './LegendElement';
 import Button from './Button';
 
 class Form extends Component {
   state = {
-    step: 1,
+    activeStep: 1,
+    stepsArr: [1, 2, 3],
     name: '',
     age: '',
     email: '',
@@ -50,7 +51,7 @@ class Form extends Component {
   };
 
   checkForErrors = () => {
-    const step = this.state.step;
+    const step = this.state.activeStep;
     switch (step) {
       case 1:
         return this.state.name === '' ? this.showError() : true;
@@ -69,14 +70,14 @@ class Form extends Component {
 
   handleNext = e => {
     e.preventDefault();
-    if (this.state.step !== 3 && this.checkForErrors()) {
-      this.setState({ step: this.state.step + 1, error: false });
+    if (this.state.activetep !== 3 && this.checkForErrors()) {
+      this.setState({ activeStep: this.state.activeStep + 1, error: false });
     }
   };
   handlePrev = e => {
     e.preventDefault();
-    if (this.state.step !== 1) {
-      this.setState({ step: this.state.step - 1 });
+    if (this.state.activeStep !== 1) {
+      this.setState({ activeStep: this.state.activeStep - 1 });
     }
   };
   handleSubmit = e => {
@@ -87,7 +88,7 @@ class Form extends Component {
     }
   };
   render() {
-    const { step, name, age, email, errors } = this.state;
+    const { stepsArr, activeStep, name, age, email, errors } = this.state;
     return (
       <form className="form">
         <div
@@ -100,13 +101,19 @@ class Form extends Component {
         >
           <div className="loader"></div>
         </div>
-        <Legend step={step} />
+        <div className="legend__wrapper">
+          {stepsArr.map((step, index) => (
+            <LegendElement activeStep={this.state.activeStep} key={index}>
+              {step}
+            </LegendElement>
+          ))}
+        </div>
         <div className="form__input-wrapper">
           <Input
             name="Name"
             inputType="text"
             placeholder="Your name"
-            className={step === 1 ? '' : 'hidden'}
+            className={activeStep === 1 ? '' : 'hidden'}
             value={name}
             onInputChange={this.updateState}
           />
@@ -114,7 +121,7 @@ class Form extends Component {
             name="Age"
             inputType="number"
             placeholder="Your age"
-            className={step === 2 ? '' : 'hidden'}
+            className={activeStep === 2 ? '' : 'hidden'}
             value={age}
             onInputChange={this.updateState}
           />
@@ -122,7 +129,7 @@ class Form extends Component {
             name="Email"
             inputType="email"
             placeholder="Your email"
-            className={step === 3 ? '' : 'hidden'}
+            className={activeStep === 3 ? '' : 'hidden'}
             value={email}
             onInputChange={this.updateState}
           />
@@ -131,27 +138,21 @@ class Form extends Component {
               this.state.error === true ? '' : 'hidden'
             }`}
           >
-            {errors[this.state.step - 1]}
+            {errors[this.state.activeStep - 1]}
           </p>
         </div>
         <div className="wrapper__btn">
-          <Button
-            btnClass="btn btn__prev"
-            text="Previous"
-            changeInput={this.handlePrev}
-          />
-          {step === 3 ? (
-            <Button
-              btnClass="btn btn__next"
-              text="Submit"
-              changeInput={this.handleSubmit}
-            />
+          <Button btnClass="btn btn__prev" changeInput={this.handlePrev}>
+            Previous
+          </Button>
+          {activeStep === 3 ? (
+            <Button btnClass="btn btn__next" changeInput={this.handleSubmit}>
+              Submit
+            </Button>
           ) : (
-            <Button
-              btnClass="btn btn__next"
-              text="Next"
-              changeInput={this.handleNext}
-            />
+            <Button btnClass="btn btn__next" changeInput={this.handleNext}>
+              Next
+            </Button>
           )}
         </div>
       </form>

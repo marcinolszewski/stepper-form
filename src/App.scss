@@ -10,6 +10,15 @@
   font-family: Roboto, 'sans-serif';
 }
 
+[data-theme='dark'] {
+  --btn-next: #444;
+  --light-blue: #84c2ff;
+  --orange: #ffd084;
+  --dark-orange: #ff9284;
+  --main-bg: #fafafa;
+  --label: #616161;
+}
+
 *,
 :before,
 :after {
@@ -125,6 +134,8 @@
   }
 }
 
+// utils
+
 .thankYouPage,
 .spinner {
   width: 96vw;
@@ -217,8 +228,6 @@
     }
   }
 }
-
-// utils
 
 .hidden {
   visibility: hidden;
