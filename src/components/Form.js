@@ -9,6 +9,9 @@ class Form extends Component {
     name: '',
     age: '',
     email: '',
+    typ: false,
+    spinner: false,
+    error: false,
     errors: [
       'Plase enter your name',
       'Plase enter your age',
@@ -24,16 +27,26 @@ class Form extends Component {
     } else {
       console.log(userCookie);
       console.log(
-        `name is ${userCookie[0]}, age is ${userCookie[1]}, emai is${userCookie[2]}`
+        `name is ${userCookie[0]}, age is ${userCookie[1]}, email is${userCookie[2]}`
       );
     }
   }
 
   showError = () => {
-    document.querySelector('.form__error').classList.remove('hidden');
+    this.setState({ error: true });
     setTimeout(() => {
-      document.querySelector('.form__error').classList.add('hidden');
-    }, 3000);
+      this.setState({ error: false });
+    }, 1500);
+  };
+
+  showSpinner = () => {
+    this.setState({ spinner: true });
+    setTimeout(() => {
+      this.setState({ spinner: false });
+      setTimeout(() => {
+        this.setState({ typ: true });
+      }, 0);
+    }, 1500);
   };
 
   checkForErrors = () => {
@@ -45,6 +58,8 @@ class Form extends Component {
         return this.state.age === '' ? this.showError() : true;
       case 3:
         return this.state.email === '' ? this.showError() : true;
+      default:
+        return false;
     }
   };
 
@@ -55,8 +70,7 @@ class Form extends Component {
   handleNext = e => {
     e.preventDefault();
     if (this.state.step !== 3 && this.checkForErrors()) {
-      document.querySelector('.form__error').classList.add('hidden');
-      this.setState({ step: this.state.step + 1 });
+      this.setState({ step: this.state.step + 1, error: false });
     }
   };
   handlePrev = e => {
@@ -69,12 +83,23 @@ class Form extends Component {
     e.preventDefault();
     if (this.checkForErrors()) {
       document.cookie = `${this.state.name}-${this.state.age}-${this.state.email}`;
+      this.showSpinner();
     }
   };
   render() {
     const { step, name, age, email, errors } = this.state;
     return (
       <form className="form">
+        <div
+          className={`thankYouPage ${this.state.typ === true ? '' : 'hidden'}`}
+        >
+          thanks, your data is saved to cookie.
+        </div>
+        <div
+          className={`spinner ${this.state.spinner === true ? '' : 'hidden'}`}
+        >
+          <div className="loader"></div>
+        </div>
         <Legend step={step} />
         <div className="form__input-wrapper">
           <Input
@@ -101,7 +126,13 @@ class Form extends Component {
             value={email}
             onInputChange={this.updateState}
           />
-          <p className="form__error hidden">{errors[this.state.step - 1]}</p>
+          <p
+            className={`form__error ${
+              this.state.error === true ? '' : 'hidden'
+            }`}
+          >
+            {errors[this.state.step - 1]}
+          </p>
         </div>
         <div className="wrapper__btn">
           <Button
