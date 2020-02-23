@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Legend extends Component {
-  render() {
-    return (
-      <div className="legend__wrapper">
-        <div className="legend__indicator legend__step-1">1</div>
-        <div className="legend__indicator legend__step-2">2</div>
-        <div className="legend__indicator legend__step-3">3</div>
-      </div>
-    );
-  }
-}
+const Legend = props => {
+  const { step } = props;
+  return (
+    <div className="legend__wrapper">
+      <div className={`legend__indicator ${step === 1 ? `active` : ''}`}>1</div>
+      <div className={`legend__indicator ${step === 2 ? `active` : ''}`}>2</div>
+      <div className={`legend__indicator ${step === 3 ? `active` : ''}`}>3</div>
+    </div>
+  );
+};
 
 export default Legend;

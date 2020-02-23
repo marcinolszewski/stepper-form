@@ -2,9 +2,9 @@
 
 :root {
   --btn-next: #444;
-  --btn-prev: #bbb;
-  --light-blue: #add8e6;
-  --lighter-blue: #d1dce0;
+  --light-blue: #84c2ff;
+  --orange: #ffd084;
+  --dark-orange: #ff9284;
   --main-bg: #fafafa;
   --label: #616161;
   font-family: Roboto, 'sans-serif';
@@ -60,6 +60,14 @@
     border: 1px solid var(--btn-prev);
     border-radius: 3px;
   }
+
+  &__error {
+    position: absolute;
+    top: 80px;
+    font-size: 11px;
+    left: 5px;
+    color: var(--dark-orange);
+  }
 }
 
 .btn {
@@ -72,10 +80,10 @@
   border-radius: 6px;
 
   &__next {
-    background-color: var(--btn-next);
+    background-color: var(--light-blue);
   }
   &__prev {
-    background-color: var(--btn-prev);
+    background-color: var(--dark-orange);
   }
 
   &__next:hover,
@@ -96,7 +104,7 @@
 
   &__indicator {
     border-radius: 50%;
-    border: 2px dashed var(--light-blue);
+    border: 1px solid var(--light-blue);
     width: 40px;
     height: 40px;
     display: flex;
@@ -104,8 +112,12 @@
     justify-content: center;
     font-size: 18px;
     font-weight: 300;
-    background-color: var(--lighter-blue);
+    background-color: var(--light-blue);
     color: #fff;
+
+    &.active {
+      background-color: var(--orange);
+    }
 
     &:hover {
       cursor: pointer;

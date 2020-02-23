@@ -1,23 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Input extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const { placeholder, name, className } = this.props;
-    return (
-      <label htmlFor={name} className={`form__label ${className}`}>
-        {name}:
-        <input
-          name={name}
-          type="text"
-          className="form__input"
-          placeholder={placeholder}
-        />
-      </label>
-    );
-  }
-}
+const Input = props => {
+  const {
+    placeholder,
+    name,
+    className,
+    value,
+    onInputChange,
+    inputType
+  } = props;
+  return (
+    <label htmlFor={name} className={`form__label ${className}`}>
+      {name}:
+      <input
+        name={name}
+        type={inputType}
+        className="form__input"
+        placeholder={placeholder}
+        value={value}
+        onChange={onInputChange}
+      />
+    </label>
+  );
+};
 
 export default Input;
