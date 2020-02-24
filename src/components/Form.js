@@ -16,22 +16,14 @@ class Form extends Component {
     errors: [
       'Plase enter your name',
       'Plase enter your age',
-      'Plase enter your email'
+      'Plase enter valid email'
     ]
   };
 
-  componentWillMount() {
+  readCookie = () => {
     const userCookie = document.cookie.split('-');
-    if (userCookie.length === 1) {
-      console.log(userCookie);
-      console.log('no cookie');
-    } else {
-      console.log(userCookie);
-      console.log(
-        `name is ${userCookie[0]}, age is ${userCookie[1]}, email is${userCookie[2]}`
-      );
-    }
-  }
+    return [...userCookie];
+  };
 
   showError = () => {
     this.setState({ error: true });
@@ -52,13 +44,16 @@ class Form extends Component {
 
   checkForErrors = () => {
     const step = this.state.activeStep;
+    const emailReg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g;
     switch (step) {
       case 1:
         return this.state.name === '' ? this.showError() : true;
       case 2:
         return this.state.age === '' ? this.showError() : true;
       case 3:
-        return this.state.email === '' ? this.showError() : true;
+        return this.state.email === '' || !emailReg.test(this.state.email)
+          ? this.showError()
+          : true;
       default:
         return false;
     }
@@ -87,6 +82,7 @@ class Form extends Component {
       this.showSpinner();
     }
   };
+
   render() {
     const { stepsArr, activeStep, name, age, email, errors } = this.state;
     return (
@@ -95,6 +91,11 @@ class Form extends Component {
           className={`thankYouPage ${this.state.typ === true ? '' : 'hidden'}`}
         >
           thanks, your data is saved to cookie.
+          <div className="cookie-data">
+            <strong>Name:</strong> {this.readCookie()[0]} <br />
+            <strong>Age:</strong> {this.readCookie()[1]} <br />
+            <strong>Email:</strong> {this.readCookie()[2]}
+          </div>
         </div>
         <div
           className={`spinner ${this.state.spinner === true ? '' : 'hidden'}`}
