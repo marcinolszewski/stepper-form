@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/stepper-form/precache-manifest.21caf1ca72604519e381f4c7c0057908.js"
+  "/stepper-form/precache-manifest.c23f688e053d3ae3dcefade0ad4608ec.js"
 );
 
 self.addEventListener('message', (event) => {
